@@ -15,6 +15,16 @@ class Node:
         # set this node's next_node reference to the passed in node
         self.next_node = new_next
 
+"""
+2 Pieces of data... value and pointer to next_node 
+Operations: 
+Get value
+Set Value
+Get Next 
+Set Next 
+
+"""
+
 class LinkedList:
     def __init__(self):
         # reference to the head of the list
