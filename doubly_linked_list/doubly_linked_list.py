@@ -179,4 +179,11 @@ class DoublyLinkedList:
     """
 
     def get_max(self):
-        pass
+        max_value = self.head.value
+        pointer = self.head
+
+        while pointer is not None:
+            pointer = pointer.next
+            if max_value < pointer.value:
+                max_value = pointer.value
+        return max_value

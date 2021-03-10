@@ -1,3 +1,6 @@
+from doubly_linked_list.doubly_linked_list import DoublyLinkedList
+
+
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -6,8 +9,12 @@ class LRUCache:
     order, as well as a storage dict that provides fast access
     to every node stored in the cache.
     """
+
     def __init__(self, limit=10):
-        pass
+        self.limit = limit
+        self.current = 0
+        self.cache = None
+        self.storage = {}
 
     """
     Retrieves the value associated with the given key. Also
@@ -16,8 +23,19 @@ class LRUCache:
     Returns the value associated with the key or None if the
     key-value pair doesn't exist in the cache.
     """
+
     def get(self, key):
-        pass
+        if key in self.storage:
+            current_node = self.cache.head
+            while current_node is not None:
+                if current_node == key:
+                    break
+                else:
+                    current_node = current_node.next
+            self.cache.move_to_front(current_node)
+            return self.storage[key]
+        else:
+            return None
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -29,5 +47,27 @@ class LRUCache:
     want to overwrite the old value associated with the key with
     the newly-specified value.
     """
+
     def set(self, key, value):
-        pass
+        if key in self.storage:
+            self.storage[key] = value
+            current_node = self.cache.head
+            while current_node is not None:
+                if current_node.value == key:
+                    break
+                else:
+                    current_node = current_node.next
+            self.cache.move_to_front(current_node)
+        else:
+            if self.current == 0:
+                self.cache = DoublyLinkedList(ListNode(key))
+                self.storage[key] = value
+                self.current += 1
+            elif self.current == self.limit:
+                removed_key = self.cache.remove_from_tail()
+                self.cache.add_to_head(key)
+                self.storage[key] = value
+            else:
+                self.cache.add_to_head(key)
+                self.storage[key] = value
+                self.current += 1
